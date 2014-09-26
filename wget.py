@@ -279,6 +279,9 @@ def callback_progress(blocks, block_size, total_size, bar_function):
     if progress:
         sys.stdout.write("\r" + progress)
 
+class ThrowOnErrorOpener(urllib.FancyURLopener):
+    def http_error_default(self, url, fp, errcode, errmsg, headers):
+        raise Exception("Cannot download %s:\n%s: %s" % (url, errcode, errmsg))
 
 def download(url, out=None, bar=bar_adaptive):
     """High level function, which downloads URL into tmp file in current
@@ -307,7 +310,7 @@ def download(url, out=None, bar=bar_adaptive):
     else:
         callback = None
 
-    (tmpfile, headers) = urllib.urlretrieve(url, tmpfile, callback)
+    (tmpfile, headers) = ThrowOnErrorOpener().retrieve(url, tmpfile, callback)
     names["header"] = filename_from_headers(headers)
     if os.path.isdir(names["out"]):
         filename = names["header"] or names["url"]
