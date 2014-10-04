@@ -30,7 +30,7 @@ else:
   import urlparse
 
 
-__version__ = "2.2"
+__version__ = "2.2.1"
 
 
 def filename_from_url(url):
@@ -281,7 +281,7 @@ def callback_progress(blocks, block_size, total_size, bar_function):
 
 class ThrowOnErrorOpener(urllib.FancyURLopener):
     def http_error_default(self, url, fp, errcode, errmsg, headers):
-        raise Exception("Cannot download %s:\n%s: %s" % (url, errcode, errmsg))
+        raise Exception("%s: %s" % (errcode, errmsg))
 
 def download(url, out=None, bar=bar_adaptive):
     """High level function, which downloads URL into tmp file in current
