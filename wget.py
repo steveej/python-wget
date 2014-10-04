@@ -30,7 +30,7 @@ else:
   import urlparse
 
 
-__version__ = "2.2.1"
+__version__ = "2.3-beta1"
 
 
 def filename_from_url(url):
